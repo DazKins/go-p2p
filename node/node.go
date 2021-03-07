@@ -48,9 +48,9 @@ func (n *Node) SendMessageTo(nodeId uuid.UUID, message []byte) error {
 		return ErrorNodeNotConnected
 	}
 
-	message = append([]byte("MSG:"), message...)
+	connectionMessage := append([]byte("MSG:"), message...)
 
-	err := n.connectionHandler.SendMessageToConnection(connection, message)
+	err := n.connectionHandler.SendMessageToConnection(connection, connectionMessage)
 
 	if err != nil {
 		switch err {
@@ -67,7 +67,7 @@ func (n *Node) SendMessageTo(nodeId uuid.UUID, message []byte) error {
 }
 
 func (n *Node) GetConnectedNodes() []uuid.UUID {
-	nodeIds := make([]uuid.UUID, len(n.nodeIdConnectionMap))
+	nodeIds := []uuid.UUID{}
 	for nodeId := range n.nodeIdConnectionMap {
 		nodeIds = append(nodeIds, nodeId)
 	}

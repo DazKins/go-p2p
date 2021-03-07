@@ -120,7 +120,7 @@ func (ch *ConnectionHandler) handleNewConnection(conn net.Conn) {
 func (ch *ConnectionHandler) connectionReader(index int) {
 	for {
 		message := make([]byte, MAX_MESSAGE_SIZE)
-		_, err := ch.conns[index].Read(message)
+		length, err := ch.conns[index].Read(message)
 
 		if err != nil {
 			ch.conns[index] = nil
@@ -130,7 +130,7 @@ func (ch *ConnectionHandler) connectionReader(index int) {
 
 		// go func() {
 		ch.connectionEventChannels[index] <- ConnectionEventMessage{
-			Message: message,
+			Message: message[:length],
 		}
 		// }()
 	}

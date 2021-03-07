@@ -39,7 +39,6 @@ func (app *App) Run() {
 		nodeId := nodeIds[rand.Intn(len(nodeIds))]
 
 		app.node.SendMessageTo(nodeId, []byte("Hello!"))
-		fmt.Printf("Sent")
 	}
 }
 
